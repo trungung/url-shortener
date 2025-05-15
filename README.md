@@ -1,169 +1,174 @@
-# shadcn/ui Vite Monorepo Template
+# 🔗 Cloudflare URL Shortener
 
-This template provides a starting point for creating a monorepo with [shadcn/ui](https://ui.shadcn.com/), using Vite.js for the web application. It's inspired by the [official shadcn/ui monorepo documentation](https://ui.shadcn.com/docs/monorepo) but adapted for a Vite + React frontend environment.
+A fully **serverless**, **edge-native** URL shortener built on **Cloudflare’s global infrastructure** — leveraging Workers, KV, Pages, and Pulumi to deliver blazing-fast redirection with minimal vendor lock-in.
 
-## Features
+![Architecture Diagram](./assets/url-shortener.png)
 
-- **Monorepo Setup**: Uses pnpm workspaces and Turborepo for efficient management of multiple packages.
-- **Web Application (`apps/web`)**: A Vite-powered React application with TypeScript.
-  - Configured with Tailwind CSS.
-  - Uses shadcn/ui components from the shared `ui` package.
-- **Shared UI Package (`packages/ui`)**: Contains shadcn/ui components, styles, and utilities shared across the monorepo.
-- **Shared Configurations**:
-  - `packages/eslint-config`: Centralized ESLint configuration.
-  - `packages/typescript-config`: Centralized TypeScript configuration.
-- **Vite Integration**: The `web` app uses Vite for fast development and optimized builds.
+## 📁 Monorepo Structure
 
-## Getting Started
+```
+url-shortener/
+├── apps/
+│ ├── url-creator/ # Cloudflare Worker (POST /shortLink → saves to KV)
+│ ├── redirector/ # Cloudflare Worker (GET /:code → reads from KV, redirects)
+│ └── web/ # React + Vite SPA hosted on Cloudflare Pages
+├── packages/
+│ ├── shared/ # Shared logic: shortCode gen, types, utils
+│ └── ui/ # Shared component library (shadcn/ui)
+├── infra/pulumi/ # IaC: DNS, KV, routing
+├── .github/workflows/ # CI/CD with GitHub Actions
+├── turbo.json # Turborepo configuration
+```
+
+## 🧰 Tech Stack
+
+| Layer         | Tech                                                    |
+| ------------- | ------------------------------------------------------- |
+| Frontend      | React, Vite, Tailwind CSS, `@repo/ui` (shadcn/ui)       |
+| Backend       | Cloudflare Workers (`url-creator`, `redirector`)        |
+| Storage       | Cloudflare KV (eventually consistent, edge-distributed) |
+| Infra-as-Code | Pulumi (TypeScript, Cloudflare provider)                |
+| DevOps        | GitHub Actions, Wrangler CLI, Turborepo                 |
+| Deployment    | Cloudflare Pages, DNS, TLS                              |
+
+## 🧩 Core Components
+
+### 1. **Frontend App** (`apps/web`)
+
+- Vite + React SPA hosted on **Cloudflare Pages**
+- Accessible at: `https://shorten.${BASE_DOMAIN}`
+- UI built using reusable components from `@repo/ui`
+- Accepts long URLs and displays shortened versions (with optional QR code)
+
+### 2. **Creator Worker** (`apps/url-creator`)
+
+- Cloudflare Worker at `POST https://shorten.${BASE_DOMAIN}/short-link`
+- Generates a short code, saves to KV, returns shortened URL
+- Optionally includes base64 QR code
+- Stateless and edge-distributed
+
+### 3. **Redirector Worker** (`apps/redirector`)
+
+- Cloudflare Worker at `GET https://r.${BASE_DOMAIN}/:code`
+- Fetches original URL from KV and redirects via HTTP 302
+- Returns custom 404 if code not found
+- Designed for ultra-low latency
+
+### 4. **UI Component Library** (`packages/ui`)
+
+- Shared Tailwind + shadcn/ui component system
+- Used across all frontend surfaces
+- Published as `@repo/ui`
+
+## ⚙️ Infrastructure & Configuration
+
+- **Pulumi** handles provisioning:
+  - DNS records (`shorten.*`, `r.*`)
+  - KV namespaces
+  - Worker route bindings
+- Each Worker has its own `wrangler.toml` for:
+  - Entry point config
+  - KV/environment bindings
+  - Compatibility settings
+
+## 🔄 CI/CD Pipeline
+
+Using **GitHub Actions**:
+
+- On push to `main`:
+  1. Deploy frontend to Cloudflare Pages
+  2. Publish Workers via `wrangler publish`
+  3. Run `pulumi up` to apply infrastructure updates
+
+Secrets (Cloudflare + Pulumi tokens) are securely stored in **GitHub Secrets**.
+
+## 🧠 Design Decisions
+
+### Why Cloudflare Workers?
+
+- Edge-based execution = minimal latency worldwide
+- Stateless and globally replicated
+- Instant cold starts and easy scaling
+
+### Why Cloudflare KV?
+
+- Ideal for simple, read-heavy short-link storage
+- Integrated directly into the edge runtime
+- Low cost and fast reads
+- ❗ Not suitable for real-time writes or analytics (eventual consistency)
+
+### Why Use the Full Cloudflare Stack?
+
+- Single edge platform = consistent routing, deployment, and DNS
+- Easier dev experience and cohesive security model
+- Still portable: logic is isolated from platform APIs for easy migration
+
+## 🔓 Vendor Portability
+
+Although built on Cloudflare, components are **easily swappable**:
+
+| Cloudflare  | Alternative                                     |
+| ----------- | ----------------------------------------------- |
+| Workers     | Vercel Edge Functions, Deno Deploy, Lambda@Edge |
+| KV          | Upstash, DynamoDB, EdgeDB                       |
+| Pages       | Vercel, Netlify, Firebase Hosting               |
+| Pulumi (CF) | Pulumi AWS/Azure, Terraform, CDK                |
+
+Infra and platform bindings are abstracted, making migration possible without changing core logic.
+
+---
+
+## ✅ Security & Best Practices
+
+- **High-entropy short codes** (avoid sequential IDs)
+- **Rate limiting** via Cloudflare Rules or Worker logic
+- **URL validation** (optional: integrate Safe Browsing APIs)
+- **Custom 404s** and QR code support
+- **Testing**: Suggested use of Miniflare, Vitest, and Playwright/Cypress
+
+## 🔍 Observability & Monitoring
+
+- Not yet implemented, but should include:
+  - Redirect counts
+  - Failed lookups
+  - Latency metrics
+- Use Cloudflare Analytics Engine, Logflare, or Sentry
+
+## 🚧 Limitations & Considerations
+
+| Area           | Notes                                                     |
+| -------------- | --------------------------------------------------------- |
+| KV consistency | ~10s delay across regions — avoid in high-write scenarios |
+| Abuse          | Add rate-limiting + URL validation                        |
+| No analytics   | Add click tracking via Workers Analytics or edge logging  |
+| No admin UI    | Could be added for managing links and metadata            |
+| Testing gaps   | Add automated tests for Workers and frontend              |
+
+## 🚀 Future Enhancements
+
+- 📊 Link analytics dashboard (click tracking, top referrers)
+- 🌐 Custom domain support per user
+- ⚙️ Admin panel to view/manage links
+- ⏱️ Link expiration (TTL support)
+- 🌘 Dark mode and PWA frontend
+
+## 🧪 Local Development
 
 ### Prerequisites
 
-- Node.js (version specified in `package.json`'s `engines` field, e.g., `>=20`)
-- pnpm (version specified in `package.json`'s `packageManager` field, e.g., `pnpm@10.4.1`)
+- Node.js (version specified in package.json's engines field, e.g., >=20)
+- pnpm (version specified in package.json's packageManager field, e.g., pnpm@10.4.1)
 
-### Installation
-
-1.  Clone this repository or use it as a template for your new project.
-2.  Install dependencies from the root of the monorepo:
-    ```bash
-    pnpm install
-    ```
-
-### Initialize shadcn/ui (for the project)
-
-If you are starting a new project based on this template's structure and shadcn/ui hasn't been initialized for the `web` app context yet, or if you need to reconfigure, you can run:
+### Commands
 
 ```bash
-pnpm dlx shadcn@latest init -c apps/web
-```
+# Install dependencies
+pnpm install
 
-This command will guide you through setting up `components.json` for the `apps/web` project, which should be configured to use `packages/ui` for components and styles. This template comes with a pre-configured [`apps/web/components.json`](apps/web/components.json).
-
-## Development
-
-To start the development server for the `web` application:
-
-```bash
+# Start all services locally
 pnpm dev
 ```
 
-This command uses Turborepo to run the `dev` script defined in [`apps/web/package.json`](apps/web/package.json) (which is `vite`). The web application will typically be available at `http://localhost:5173`.
+# 📜 License
 
-## Adding shadcn/ui Components
-
-To add new shadcn/ui components:
-
-1.  Run the `add` command from the **root of the monorepo**:
-    ```bash
-    pnpm dlx shadcn@latest add <component-name> -c apps/web
-    ```
-    For example, to add the `button` component:
-    ```bash
-    pnpm dlx shadcn@latest add button -c apps/web
-    ```
-2.  This command uses the configuration in [`apps/web/components.json`](apps/web/components.json).
-3.  The component source code will be added to the `packages/ui/src/components` directory.
-4.  The necessary dependencies will be added to [`packages/ui/package.json`](packages/ui/package.json).
-
-The `apps/web/components.json` is configured with aliases like `"ui": "@workspace/ui/components"` and `"utils": "@workspace/ui/lib/utils"`, ensuring components are placed in and resolved from the shared `packages/ui` directory.
-
-## Using Components in `apps/web`
-
-Import components into your React files within the `apps/web` application from the `@workspace/ui` package:
-
-```tsx
-// Example: apps/web/src/App.tsx
-import { Button } from "@workspace/ui/components/button"; // Or your specific alias
-
-function App() {
-  return (
-    <div>
-      <h1>My Vite + React App</h1>
-      <Button>Click Me</Button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-## Building for Production
-
-To build all packages in the monorepo for production:
-
-```bash
-pnpm build
-```
-
-This command uses Turborepo to execute the `build` script for each package, including building the `web` app using Vite.
-
-## Linting
-
-To lint all packages in the monorepo:
-
-```bash
-pnpm lint
-```
-
-This uses Turborepo to run the `lint` script defined in the respective `package.json` files (e.g., [`apps/web/package.json`](apps/web/package.json), [`packages/ui/package.json`](packages/ui/package.json)).
-
-## Folder Structure Overview
-
-```
-├── apps/
-│   └── web/                # Vite + React application
-│       ├── public/
-│       ├── src/
-│       ├── components.json # shadcn/ui config for the web app
-│       ├── package.json
-│       └── vite.config.ts
-├── packages/
-│   ├── ui/                 # Shared shadcn/ui components
-│   │   ├── src/
-│   │   │   ├── components/ # Actual shadcn/ui components
-│   │   │   ├── lib/        # Utilities (e.g., cn)
-│   │   │   └── styles/     # Global styles (globals.css)
-│   │   ├── components.json # shadcn/ui config for the ui package
-│   │   └── package.json
-│   ├── eslint-config/      # Shared ESLint configuration
-│   └── typescript-config/  # Shared TypeScript configuration
-├── .eslintrc.js
-├── package.json            # Root package.json
-├── pnpm-lock.yaml
-├── pnpm-workspace.yaml
-├── tsconfig.json
-└── turbo.json
-```
-
-## Project Customization Checklist
-
-As you adapt this template for your specific project, consider the following customization steps:
-
-- **[ ] Project Naming & Identity:**
-
-  - [ ] Update `name` and `description` in the root `package.json`.
-  - [ ] Update `name` in `apps/web/package.json` and `packages/ui/package.json`.
-  - [ ] Change the browser tab title in `apps/web/index.html`.
-  - [ ] Replace placeholder logos/favicons in `apps/web/public/`.
-
-- **[ ] Branding & Styling:**
-
-  - [ ] Define your project's color palette in `packages/ui/tailwind.config.mjs`.
-  - [ ] Customize fonts and base styles in `packages/ui/src/styles/globals.css`.
-  - [ ] Adapt or extend shadcn/ui components in `packages/ui/src/components` to match your brand.
-
-- **[ ] Documentation (`README.md` and others):**
-
-  - [ ] **Update this `README.md`**:
-    - [ ] Reflect your project's specific purpose and features.
-    - [ ] Add or remove sections relevant to your project.
-    - [ ] Update setup instructions if you've made significant changes.
-    - [ ] Include information on how to contribute (if applicable).
-  - [ ] Add any necessary architectural decision records or further documentation.
-
-- **[ ] Clean Up:**
-  - [ ] Remove any example code or components from the template that are not needed for your project (e.g., the default `App.tsx` content).
-
-## License
-
-This project is licensed under the MIT License
+MIT © TrungUng
