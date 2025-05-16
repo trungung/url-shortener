@@ -13,6 +13,10 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "deploy": {
+      "outputs": [],
+      "cache": false
     }
   }
 }
