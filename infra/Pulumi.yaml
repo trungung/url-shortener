@@ -1,0 +1,10 @@
+name: shortlink-infra
+description: Infrastructure for shortlink Workers, KV, and DNS on Cloudflare
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: typescript
