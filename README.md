@@ -42,7 +42,7 @@ url-shortener/
 
 ### 2. **Creator Worker** (`apps/url-creator`)
 
-- Cloudflare Worker at `POST https://shorten.${BASE_DOMAIN}/short-link`
+- Cloudflare Worker at `POST https://shorten.${BASE_DOMAIN}/api/short-link`
 - Generates a short code, saves to KV, returns shortened URL
 - Optionally includes base64 QR code
 - Stateless and edge-distributed
@@ -66,7 +66,7 @@ url-shortener/
   - DNS records (`shorten.*`, `r.*`)
   - KV namespaces
   - Worker route bindings
-- Each Worker has its own `wrangler.toml` for:
+- Each Worker has its own `wrangler.jsonc` for:
   - Entry point config
   - KV/environment bindings
   - Compatibility settings
