@@ -30,14 +30,16 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <div className="flex-1 relative">
-            <div
+            <a
+              href={shortUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               role="button"
-              className="w-full pr-16 pl-3.5 py-3.5 bg-background rounded-lg border border-border text-foreground font-medium break-all focus:outline-none cursor-pointer"
-              onClick={copyToClipboard}
+              className="w-full pr-16 pl-3.5 py-3.5 bg-background rounded-lg border border-border text-foreground font-medium break-all focus:outline-none cursor-pointer whitespace-nowrap truncate block"
               aria-label="Shortened URL"
             >
               {shortUrl}
-            </div>
+            </a>
             <Button
               type="button"
               variant="outline"
