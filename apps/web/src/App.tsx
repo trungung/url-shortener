@@ -5,6 +5,7 @@ import {
   CardHeader,
 } from "@workspace/ui/components/card";
 import { Toaster, toast } from "@workspace/ui/components/sonner";
+import { type ShortenFormSchema } from "@workspace/schema";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -14,7 +15,7 @@ import {
   ShortenedUrlDisplay,
   Footer,
 } from "./components";
-import type { ShortenFormSchema } from "./schemas/shortenFormSchema";
+
 import { shortenUrl } from "./api/shortenUrl";
 
 function App() {

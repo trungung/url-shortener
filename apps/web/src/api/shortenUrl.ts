@@ -1,8 +1,10 @@
-import type { ShortenFormSchema } from "../schemas/shortenFormSchema";
+import type { ShortenFormSchema } from "@workspace/schema";
 
-export const shortenUrl = async (data: ShortenFormSchema): Promise<{ shortUrl: string }> => {
+export const shortenUrl = async (
+  data: ShortenFormSchema
+): Promise<{ shortUrl: string }> => {
   // TODO: Replace with actual API call to your Cloudflare Worker
-  console.log('Shortening URL:', data.url);
+  console.log("Shortening URL:", data.url);
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
