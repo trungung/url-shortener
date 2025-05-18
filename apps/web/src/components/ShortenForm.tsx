@@ -54,7 +54,7 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
       >
         {isLoading ? (
           <>
-            <Loader2 className="animate-spin -ml-1 mr-2 h-5 w-5 text-primary-foreground" />
+            <Loader2 className="animate-spin mr-2 h-5 w-5" />
             Shortening...
           </>
         ) : (
