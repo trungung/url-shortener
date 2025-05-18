@@ -6,7 +6,7 @@ export const shortenUrl = async (data: ShortenFormSchema): Promise<{ shortUrl: s
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        shortUrl: `https://r.trungung.com/${Math.random().toString(36).substring(2, 8)}`,
+        shortUrl: `${import.meta.env.VITE_REDIRECT_URL}/${Math.random().toString(36).substring(2, 8)}`,
       });
     }, 800);
   });

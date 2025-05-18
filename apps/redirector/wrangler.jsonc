@@ -8,8 +8,11 @@
 	"main": "src/index.ts",
 	"compatibility_date": "2025-05-15",
 	"observability": {
-		"enabled": true
-	}
+		"enabled": true,
+	},
+	"dev": {
+		"port": 8788,
+	},
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
