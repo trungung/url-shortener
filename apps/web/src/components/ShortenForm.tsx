@@ -8,6 +8,7 @@ import {
   shortenFormSchema,
   type ShortenFormSchema,
 } from "../schemas/shortenFormSchema";
+import { cn } from "@workspace/ui/lib/utils";
 
 type ShortenFormProps = {
   isLoading: boolean;
@@ -33,12 +34,12 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
       <div className="flex-1 flex flex-col">
         <Input
           placeholder="Paste your long URL here..."
-          className={`sm:h-12 sm:text-lg! w-full border-border ${
-            errors.url ? "border-destructive" : ""
-          }`}
+          className={cn("sm:h-12 sm:text-lg! w-full border-border", {
+            "border-destructive": errors.url,
+          })}
           {...register("url")}
         />
-        <div className="h-5 mt-1">
+        <div className={cn("sm:h-5 mt-1", errors.url ? "h-5" : "h-0")}>
           {errors.url && (
             <p className="text-sm text-destructive ml-1">
               {errors.url.message}
