@@ -8,7 +8,7 @@ const baseDomain = cfg.require("baseDomain");
 const zoneId = cfg.require("zoneId");
 
 // --- 2. Production subdomains ---
-const webSubdomain = `shorten`;
+const webSubdomain = `go`;
 const redirectorSubdomain = `r`;
 
 // --- 3. KV namespace ---
