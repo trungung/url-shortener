@@ -8,8 +8,8 @@ const baseDomain = cfg.require("baseDomain");
 const zoneId = cfg.require("zoneId");
 
 // --- 2. Production subdomains ---
-const frontendSubdomain = `shorten.${baseDomain}`;
-const redirectorSubdomain = `r.${baseDomain}`;
+const webSubdomain = `shorten`;
+const redirectorSubdomain = `r`;
 
 // --- 3. KV namespace ---
 const kv = new cloudflare.WorkersKvNamespace("ShortLinkKV", {
@@ -21,7 +21,7 @@ const kv = new cloudflare.WorkersKvNamespace("ShortLinkKV", {
 
 new cloudflare.DnsRecord("webDns", {
   zoneId,
-  name: "shorten",
+  name: webSubdomain,
   type: "CNAME",
   content: "workers.dev",
   ttl: 1,
@@ -30,7 +30,7 @@ new cloudflare.DnsRecord("webDns", {
 
 new cloudflare.DnsRecord("redirectorDns", {
   zoneId,
-  name: "r",
+  name: redirectorSubdomain,
   type: "CNAME",
   content: "workers.dev",
   ttl: 1,
@@ -40,16 +40,16 @@ new cloudflare.DnsRecord("redirectorDns", {
 // --- 5. Worker Routes ---
 new cloudflare.WorkersRoute("webRoute", {
   zoneId,
-  pattern: `${frontendSubdomain}/*`,
+  pattern: `${webSubdomain}/${baseDomain}/*`,
   script: "web",
 });
 
 new cloudflare.WorkersRoute("redirectorRoute", {
   zoneId,
-  pattern: `${redirectorSubdomain}/*`,
+  pattern: `${redirectorSubdomain}/${baseDomain}/*`,
   script: "redirector",
 });
 
 // --- 6. Outputs for Wrangler .env ---
 export const shortLinksKvId = kv.id;
-export const redirectorUrl = `https://${redirectorSubdomain}`;
+export const redirectorUrl = `https://${redirectorSubdomain}.${baseDomain}`;
