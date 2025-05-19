@@ -206,6 +206,9 @@ importers:
 
   packages/schema:
     dependencies:
+      eslint:
+        specifier: ^9.27.0
+        version: 9.27.0(jiti@2.4.2)
       zod:
         specifier: ^3.24.4
         version: 3.24.4
@@ -269,6 +272,9 @@ importers:
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      eslint:
+        specifier: ^9.27.0
+        version: 9.27.0(jiti@2.4.2)
       tailwindcss:
         specifier: ^4.0.8
         version: 4.1.7
