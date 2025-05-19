@@ -27,5 +27,5 @@ export const config = tseslint.config(
         { allowConstantExport: true },
       ],
     },
-  }
+  },
 );

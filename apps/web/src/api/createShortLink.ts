@@ -5,11 +5,11 @@ import type {
 import axios from "axios";
 
 export const createShortLink = async (
-  data: CreateShortLinkRequest
+  data: CreateShortLinkRequest,
 ): Promise<CreateShortLinkResponse> => {
   const response = await axios.post<CreateShortLinkResponse>(
     "/api/short-link",
-    data
+    data,
   );
 
   return response.data;

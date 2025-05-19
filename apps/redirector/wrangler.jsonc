@@ -1,18 +1,18 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "redirector",
-	"main": "src/index.ts",
-	"compatibility_date": "2025-05-15",
-	"observability": {
-		"enabled": true,
-	},
-	"dev": {
-		"port": 8788,
-	},
-	"kv_namespaces": [
-		{
-			"binding": "ShortLinkKV",
-			"id": "2c71329ed601439199447491122efe01",
-		},
-	],
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "redirector",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-05-15",
+  "observability": {
+    "enabled": true,
+  },
+  "dev": {
+    "port": 8788,
+  },
+  "kv_namespaces": [
+    {
+      "binding": "ShortLinkKV",
+      "id": "2c71329ed601439199447491122efe01",
+    },
+  ],
 }
