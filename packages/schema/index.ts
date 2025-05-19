@@ -11,7 +11,9 @@ export const ShortLinkSchema = z.object({
 export type ShortLink = z.infer<typeof ShortLinkSchema>;
 
 export const CreateShortLinkRequestSchema = z.object({
-  originalUrl: z.string().url(),
+  originalUrl: z
+    .string()
+    .url({ message: "Please enter a valid URL (e.g., https://example.com)" }),
   customCode: z
     .string()
     .min(3)
