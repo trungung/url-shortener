@@ -1,4 +1,4 @@
-name: Deploy Affected Wrangler Apps
+name: Deploy Wrangler Apps
 
 on:
   push:
@@ -7,14 +7,12 @@ on:
 
 jobs:
   deploy:
-    name: Deploy changed Cloudflare Workers
+    name: Deploy all Cloudflare Workers
     runs-on: ubuntu-latest
 
     steps:
       - name: 🛎️ Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: 🔧 Setup PNPM
         uses: pnpm/action-setup@v4
@@ -30,18 +28,7 @@ jobs:
       - name: 📦 Install dependencies
         run: pnpm install
 
-      - name: 📁 Check if apps/web changed
-        id: web_changed
-        run: |
-          git diff --quiet HEAD^ HEAD -- apps/web || echo "changed=true" >> "$GITHUB_OUTPUT"
-
-      - name: 📁 Check if apps/redirector changed
-        id: redirector_changed
-        run: |
-          git diff --quiet HEAD^ HEAD -- apps/redirector || echo "changed=true" >> "$GITHUB_OUTPUT"
-
       - name: 🚀 Deploy apps/web
-        if: steps.web_changed.outputs.changed == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -49,11 +36,11 @@ jobs:
           preCommands: pnpm run build
 
       - name: 🚀 Deploy apps/redirector
-        if: steps.redirector_changed.outputs.changed == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: apps/redirector
+          preCommands: pnpm run build
 
       - name: ✅ Done
         run: echo "🎉 Deployment complete."
