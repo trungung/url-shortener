@@ -15,4 +15,7 @@
       "id": "2c71329ed601439199447491122efe01",
     },
   ],
+  "vars": {
+    "VITE_REDIRECT_URL": "https://r.trungung.com",
+  },
 }
