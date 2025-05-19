@@ -5,14 +5,14 @@ import { Loader2, Send } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  shortenFormSchema,
-  type ShortenFormSchema,
-} from "../schemas/shortenFormSchema";
+  CreateShortLinkRequestSchema,
+  type CreateShortLinkRequest,
+} from "@workspace/schema";
 import { cn } from "@workspace/ui/lib/utils";
 
 type ShortenFormProps = {
   isLoading: boolean;
-  onSubmit: SubmitHandler<ShortenFormSchema>;
+  onSubmit: SubmitHandler<CreateShortLinkRequest>;
 };
 
 export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
@@ -20,10 +20,10 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<ShortenFormSchema>({
-    resolver: zodResolver(shortenFormSchema),
+  } = useForm<CreateShortLinkRequest>({
+    resolver: zodResolver(CreateShortLinkRequestSchema),
     defaultValues: {
-      url: "",
+      originalUrl: "",
     },
   });
   return (
@@ -35,14 +35,14 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
         <Input
           placeholder="Paste your long URL here..."
           className={cn("sm:h-12 sm:text-lg! w-full border-border", {
-            "border-destructive": errors.url,
+            "border-destructive": errors.originalUrl,
           })}
-          {...register("url")}
+          {...register("originalUrl")}
         />
-        <div className={cn("sm:h-5 mt-1", errors.url ? "h-5" : "h-0")}>
-          {errors.url && (
+        <div className={cn("sm:h-5 mt-1", errors.originalUrl ? "h-5" : "h-0")}>
+          {errors.originalUrl && (
             <p className="text-sm text-destructive ml-1">
-              {errors.url.message}
+              {errors.originalUrl.message}
             </p>
           )}
         </div>
