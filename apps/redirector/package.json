@@ -4,8 +4,8 @@
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"start": "wrangler dev",
+		"dev": "wrangler dev --env=dev --persist-to ../../.wrangler",
+		"start": "wrangler dev --env=dev --persist-to ../../.wrangler",
 		"test": "vitest",
 		"cf-typegen": "wrangler types"
 	},
@@ -14,5 +14,9 @@
 		"typescript": "^5.5.2",
 		"vitest": "~3.0.7",
 		"wrangler": "^4.15.2"
+	},
+	"dependencies": {
+		"@workspace/schema": "workspace:*",
+		"zod": "^3.24.4"
 	}
 }
