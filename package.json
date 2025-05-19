@@ -7,7 +7,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "deploy": "turbo deploy",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "clean": "./scripts/clean.sh"
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",
