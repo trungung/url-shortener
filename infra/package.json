@@ -1,13 +1,13 @@
 {
-    "name": "shortlink-infra",
-    "main": "index.ts",
-    "devDependencies": {
-        "@types/node": "^18",
-        "typescript": "^5.0.0"
-    },
-    "dependencies": {
-        "@pulumi/cloudflare": "^6.2.0",
-        "@pulumi/pulumi": "^3.170.0",
-        "dotenv": "^16.5.0"
-    }
+  "name": "shortlink-infra",
+  "main": "index.ts",
+  "devDependencies": {
+    "@types/node": "^18",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@pulumi/cloudflare": "^6.2.0",
+    "@pulumi/pulumi": "^3.170.0",
+    "dotenv": "^16.5.0"
+  }
 }
