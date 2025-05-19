@@ -35,7 +35,7 @@ jobs:
           workingDirectory: apps/web
           preCommands: pnpm run build
         env:
-          VITE_API_URL: https://r.trungung.com
+          VITE_REDIRECT_URL: https://r.trungung.com
 
       - name: 🚀 Deploy apps/redirector
         uses: cloudflare/wrangler-action@v3
