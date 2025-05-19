@@ -130,24 +130,10 @@ Infrastructure bindings are abstracted to make future migrations easy.
 
 > Platform bindings are abstracted — migration won’t require core rewrites.
 
-## 🚧 Limitations & Considerations
+## 🚀 Roadmap
 
-| Area           | Notes                                                     |
-| -------------- | --------------------------------------------------------- |
-| KV consistency | ~10s delay across regions — avoid in high-write scenarios |
-| Abuse          | Add rate-limiting + URL validation                        |
-| No analytics   | Add click tracking via Workers Analytics or edge logging  |
-| No admin UI    | Could be added for managing links and metadata            |
-| Testing gaps   | Add automated tests for Workers and frontend              |
-
-## 🚀 Future Enhancements
-
-- 📊 Link analytics dashboard (click tracking, top referrers)
-- 🌐 Custom domain support per user
-- ⚙️ Admin panel to view/manage links
-- ⏱️ Link expiration (TTL support)
-- 🌘 Dark mode and PWA frontend
-- 🔐 Auth for backend operations
+Curious about what’s coming next?
+📍 Check out the [project roadmap](https://r.trungung.com/url-shortener-roadmap) for planned features, enhancements, and priorities.
 
 ## 🧪 Local Development
 
