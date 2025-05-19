@@ -7,41 +7,52 @@ on:
 
 jobs:
   deploy:
-    name: Deploy affected apps
+    name: Deploy changed Cloudflare Workers
     runs-on: ubuntu-latest
-
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
     steps:
       - name: 🛎️ Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 📦 Setup PNPM
-        uses: pnpm/action-setup@v2
+      - name: 🔧 Setup PNPM
+        uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 10
 
       - name: 🧰 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: pnpm
 
-      - name: 📥 Install dependencies
+      - name: 📦 Install dependencies
         run: pnpm install
 
-      - name: 🚀 Turbo Deploy (only affected apps)
-        run: pnpm turbo run deploy --filter="...[origin/main]" --concurrency=1 --no-cache
-
-      - name: ✅ Verify deployment
+      - name: 📁 Check if apps/web changed
+        id: web_changed
         run: |
-          echo "✅ Commit: ${GITHUB_SHA}"
-          echo "✅ Branch: ${GITHUB_REF}"
+          git diff --quiet HEAD^ HEAD -- apps/web || echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: ❌ Notify on failure
-        if: ${{ failure() }}
+      - name: 📁 Check if apps/redirector changed
+        id: redirector_changed
         run: |
-          echo "❌ Deployment failed for commit ${GITHUB_SHA} on branch ${GITHUB_REF}."
+          git diff --quiet HEAD^ HEAD -- apps/redirector || echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: 🚀 Deploy apps/web
+        if: steps.web_changed.outputs.changed == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: cd apps/web && pnpm deploy
+
+      - name: 🚀 Deploy apps/redirector
+        if: steps.redirector_changed.outputs.changed == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: cd apps/redirector && pnpm deploy
+
+      - name: ✅ Done
+        run: echo "🎉 Deployment complete."
