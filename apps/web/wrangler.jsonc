@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "web",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-05-19",
+  "assets": {
+    "not_found_handling": "single-page-application",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  "kv_namespaces": [
+    {
+      "binding": "ShortLinkKV",
+      "id": "58314b4cf9ad4919ab8a941a21d23289",
+    },
+  ],
+}

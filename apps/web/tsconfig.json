@@ -1,17 +1,23 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.worker.json"
+    }
   ],
   "compilerOptions": {
+    "types": ["./worker-configuration.d.ts"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"],
       "@workspace/schema/*": ["../../packages/schema/*"]
     }
-  },
-
-  "exclude": ["node_modules"]
+  }
 }

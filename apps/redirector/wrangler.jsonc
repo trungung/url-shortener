@@ -11,22 +11,8 @@
 	},
 	"kv_namespaces": [
 		{
-			"binding": "shortLinksKV",
+			"binding": "ShortLinkKV",
 			"id": "58314b4cf9ad4919ab8a941a21d23289",
 		},
 	],
-
-	"env": {
-		"dev": {
-			"vars": {
-				"CORS_ORIGIN": "http://localhost:5173",
-			},
-			"kv_namespaces": [
-				{
-					"binding": "shortLinksKV",
-					"id": "58314b4cf9ad4919ab8a941a21d23289",
-				},
-			],
-		},
-	},
 }

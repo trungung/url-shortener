@@ -9,7 +9,7 @@ export default {
 			return new Response('Missing short code.', { status: 400 });
 		}
 
-		const record = await env.shortLinksKV.get(shortCode, { type: 'json' });
+		const record = await env.ShortLinkKV.get(shortCode, { type: 'json' });
 		if (!record) {
 			return new Response('Short link not found.', { status: 404 });
 		}

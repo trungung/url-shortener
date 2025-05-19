@@ -7,33 +7,43 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "pnpm run build && vite preview",
+    "deploy": "pnpm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@workspace/schema": "workspace:*",
+    "hono": "^4.7.10",
+    "zod": "^3.24.4",
     "@hookform/resolvers": "^5.0.1",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/react-query": "^5.76.1",
-    "@workspace/schema": "workspace:*",
     "@workspace/ui": "workspace:*",
     "axios": "^1.9.0",
     "framer-motion": "^12.12.1",
     "lucide-react": "^0.475.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
     "react-hook-form": "^7.56.4",
     "react-qr-code": "^2.0.15",
-    "tailwindcss": "^4.0.8",
-    "zod": "^3.24.2"
+    "tailwindcss": "^4.0.8"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.2.2",
+    "@eslint/js": "^9.25.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react": "^4.4.1",
-    "@workspace/eslint-config": "workspace:^",
-    "@workspace/typescript-config": "workspace:*",
+    "@vitejs/plugin-react-swc": "^3.9.0",
     "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "typescript": "~5.8.3",
-    "vite": "^6.3.5"
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5",
+    "wrangler": "^4.15.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "@workspace/eslint-config": "workspace:^",
+    "@workspace/typescript-config": "workspace:*"
   }
 }

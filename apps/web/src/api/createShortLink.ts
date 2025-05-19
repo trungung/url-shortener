@@ -8,7 +8,7 @@ export const createShortLink = async (
   data: CreateShortLinkRequest
 ): Promise<CreateShortLinkResponse> => {
   const response = await axios.post<CreateShortLinkResponse>(
-    import.meta.env.VITE_API_URL,
+    "/api/short-link",
     data
   );
 
