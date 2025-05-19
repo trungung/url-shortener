@@ -20,6 +20,23 @@ url-shortener/
 
 ```
 
+## 🧪 Local Development
+
+### Prerequisites
+
+- Node.js (see `package.json` engines field)
+- pnpm (e.g., `pnpm@10.4.1` as per `packageManager`)
+
+### Commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start all services locally
+pnpm dev
+```
+
 ## 🧰 Tech Stack
 
 | Layer         | Tech                                                    |
@@ -134,23 +151,6 @@ Infrastructure bindings are abstracted to make future migrations easy.
 
 Curious about what’s coming next?
 📍 Check out the [project roadmap](https://r.trungung.com/url-shortener-roadmap) for planned features, enhancements, and priorities.
-
-## 🧪 Local Development
-
-### Prerequisites
-
-- Node.js (see `package.json` engines field)
-- pnpm (e.g., `pnpm@10.4.1` as per `packageManager`)
-
-### Commands
-
-```bash
-# Install dependencies
-pnpm install
-
-# Start all services locally
-pnpm dev
-```
 
 ## 📜 License
 
