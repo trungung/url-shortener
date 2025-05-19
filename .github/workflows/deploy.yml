@@ -45,14 +45,15 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: cd apps/web && pnpm deploy
+          workingDirectory: apps/web
+          preCommands: pnpm run build
 
       - name: 🚀 Deploy apps/redirector
         if: steps.redirector_changed.outputs.changed == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: cd apps/redirector && pnpm deploy
+          workingDirectory: apps/redirector
 
       - name: ✅ Done
         run: echo "🎉 Deployment complete."
