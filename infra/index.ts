@@ -40,13 +40,13 @@ new cloudflare.DnsRecord("redirectorDns", {
 // --- 5. Worker Routes ---
 new cloudflare.WorkersRoute("webRoute", {
   zoneId,
-  pattern: `${webSubdomain}/${baseDomain}/*`,
+  pattern: `${webSubdomain}.${baseDomain}/*`,
   script: "web",
 });
 
 new cloudflare.WorkersRoute("redirectorRoute", {
   zoneId,
-  pattern: `${redirectorSubdomain}/${baseDomain}/*`,
+  pattern: `${redirectorSubdomain}.${baseDomain}/*`,
   script: "redirector",
 });
 
