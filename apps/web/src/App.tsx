@@ -5,7 +5,7 @@ import {
   CardHeader,
 } from "@workspace/ui/components/card";
 import { Toaster, toast } from "@workspace/ui/components/sonner";
-import { type ShortenFormSchema } from "@workspace/schema";
+import { type CreateShortLinkRequest } from "@workspace/schema";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -16,23 +16,24 @@ import {
   Footer,
 } from "./components";
 
-import { shortenUrl } from "./api/shortenUrl";
+import { createShortLink } from "./api/createShortLink";
 
 function App() {
   const [shortUrl, setShortUrl] = useState("");
   const title = "Shorten Your Link";
 
   const { mutate, isPending } = useMutation({
-    mutationFn: shortenUrl,
+    mutationFn: createShortLink,
     onSuccess: (data) => {
-      setShortUrl(data.shortUrl);
+      const shortUrl = `${import.meta.env.VITE_REDIRECT_URL}/${data.shortCode}`;
+      setShortUrl(shortUrl);
     },
     onError: () => {
       toast.error("Error shortening URL");
     },
   });
 
-  const onSubmit = (data: ShortenFormSchema) => {
+  const onSubmit = (data: CreateShortLinkRequest) => {
     mutate(data);
   };
 
