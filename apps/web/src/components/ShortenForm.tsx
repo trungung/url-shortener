@@ -4,6 +4,7 @@ import { Loader2, Send } from "lucide-react";
 
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef } from "react";
 import {
   CreateShortLinkRequestSchema,
   type CreateShortLinkRequest,
@@ -16,6 +17,12 @@ type ShortenFormProps = {
 };
 
 export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const {
     register,
     formState: { errors },
@@ -38,6 +45,10 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
             "border-destructive": errors.originalUrl,
           })}
           {...register("originalUrl")}
+          ref={(e) => {
+            register("originalUrl").ref(e);
+            (inputRef as React.RefObject<HTMLInputElement | null>).current = e;
+          }}
         />
         <div className={cn("sm:h-5 mt-1", errors.originalUrl ? "h-5" : "h-0")}>
           {errors.originalUrl && (
