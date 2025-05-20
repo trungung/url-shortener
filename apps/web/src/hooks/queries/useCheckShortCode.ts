@@ -11,5 +11,7 @@ export function useCheckShortCode(code: string | undefined, enabled?: boolean) {
       return checkShortCodeExists(code);
     },
     enabled: !!code && (enabled ?? true),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 }
