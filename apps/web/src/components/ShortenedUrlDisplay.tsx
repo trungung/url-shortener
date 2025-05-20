@@ -55,7 +55,7 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
   const qrCodeRef = useRef<SVGSVGElement | null>(null);
 
   return (
-    <motion.div>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div className="mt-6 sm:mt-8 p-4 sm:p-5 bg-accent rounded-xl border border-border flex flex-col gap-3">
         <p className="text-sm font-medium text-primary flex items-center">
           <Check className="w-4 h-4 mr-1.5 text-green-700" />
