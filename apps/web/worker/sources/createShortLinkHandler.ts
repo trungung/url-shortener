@@ -7,7 +7,7 @@ import {
 } from "@workspace/schema";
 
 export async function createShortLinkHandler(
-  c: Context<Env>,
+  c: Context<Env>
 ): Promise<Response> {
   try {
     // validate request
@@ -17,9 +17,18 @@ export async function createShortLinkHandler(
     // generate short code
     const kv = c.env.ShortLinkKV;
 
-    let shortCode = Math.random().toString(36).substring(2, 8);
-    while (await kv.get(shortCode)) {
-      shortCode = Math.random().toString(36).substring(2, 8);
+    let shortCode: string;
+    if (body.customCode) {
+      const existingShortLink = await kv.get(body.customCode);
+      if (existingShortLink) {
+        return c.json({ error: "Custom code already exists" }, 400);
+      }
+      shortCode = body.customCode;
+    } else {
+      shortCode = Math.random().toString(36).substring(2, 10);
+      while (await kv.get(shortCode)) {
+        shortCode = Math.random().toString(36).substring(2, 10);
+      }
     }
 
     // save to kv
@@ -27,6 +36,7 @@ export async function createShortLinkHandler(
       shortCode,
       originalUrl,
       createdAt: new Date().toISOString(),
+      expiresAt: body.expiresAt,
       clicks: 0,
     };
 

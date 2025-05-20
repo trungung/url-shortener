@@ -4,7 +4,7 @@ export default {
   async fetch(
     request: Request,
     env: Env,
-    ctx: ExecutionContext,
+    ctx: ExecutionContext
   ): Promise<Response> {
     const url = new URL(request.url);
     const shortCode = url.pathname.slice(1);
@@ -19,6 +19,12 @@ export default {
     }
 
     const parsedRecord = ShortLinkSchema.parse(record);
+    if (
+      parsedRecord.expiresAt &&
+      new Date(parsedRecord.expiresAt) < new Date()
+    ) {
+      return new Response("Short link expired.", { status: 404 });
+    }
     return Response.redirect(parsedRecord.originalUrl, 302);
   },
 } satisfies ExportedHandler<Env>;

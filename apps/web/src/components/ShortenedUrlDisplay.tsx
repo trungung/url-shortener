@@ -1,5 +1,12 @@
 import { Button } from "@workspace/ui/components/button";
-import { Check, Copy, QrCode, Download, ExternalLink } from "lucide-react";
+import {
+  Check,
+  Copy,
+  QrCode,
+  Download,
+  ExternalLink,
+  Link2,
+} from "lucide-react";
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
@@ -39,6 +46,8 @@ const downloadQRCode = (qrCodeRef: React.RefObject<SVGSVGElement | null>) => {
 
 export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
   const [isCopied, setIsCopied] = useState(false);
+  const qrCodeRef = useRef<SVGSVGElement | null>(null);
+  const [isQrDialogOpen, setIsQrDialogOpen] = useState(false);
 
   const copyToClipboard = async () => {
     if (!shortUrl) return;
@@ -51,8 +60,25 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
     }
   };
 
-  const [isQrDialogOpen, setIsQrDialogOpen] = useState(false);
-  const qrCodeRef = useRef<SVGSVGElement | null>(null);
+  if (!shortUrl) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        role="button"
+        tabIndex={0}
+        aria-label="Paste a URL above to create a short link"
+        onClick={() => document.getElementById("originalUrl")?.focus()}
+        className="mt-6 sm:mt-8 flex flex-col items-center justify-center h-42 sm:h-32 rounded-lg border border-dashed border-border/50 bg-muted p-4 gap-2"
+      >
+        <Link2 className="w-6 h-6 text-muted-foreground" />
+        <p className="text-muted-foreground">
+          Paste a URL above to create a short link
+        </p>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>

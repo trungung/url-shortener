@@ -18,6 +18,7 @@
     "@workspace/schema": "workspace:*",
     "@workspace/ui": "workspace:*",
     "axios": "^1.9.0",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.12.1",
     "hono": "^4.7.10",
     "lucide-react": "^0.475.0",

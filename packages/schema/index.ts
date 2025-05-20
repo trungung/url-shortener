@@ -19,8 +19,15 @@ export const CreateShortLinkRequestSchema = z.object({
     .min(3)
     .max(20)
     .regex(/^[a-zA-Z0-9_-]+$/)
-    .optional(),
-  expiresAt: z.string().datetime().optional(),
+    .optional()
+    .or(z.literal(""))
+    .transform((val) => (val === "" ? undefined : val)),
+  expiresAt: z
+    .string()
+    .datetime()
+    .optional()
+    .or(z.literal(""))
+    .transform((val) => (val === "" ? undefined : val)),
 });
 
 export type CreateShortLinkRequest = z.infer<
@@ -33,4 +40,12 @@ export const CreateShortLinkResponseSchema = z.object({
 
 export type CreateShortLinkResponse = z.infer<
   typeof CreateShortLinkResponseSchema
+>;
+
+export const CheckShortCodeExistsResponseSchema = z.object({
+  exists: z.boolean(),
+});
+
+export type CheckShortCodeExistsResponse = z.infer<
+  typeof CheckShortCodeExistsResponseSchema
 >;

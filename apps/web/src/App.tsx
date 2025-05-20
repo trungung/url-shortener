@@ -7,7 +7,7 @@ import {
 import { Toaster, toast } from "@workspace/ui/components/sonner";
 import { type CreateShortLinkRequest } from "@workspace/schema";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
 import {
   AnimatedTitle,
@@ -28,8 +28,8 @@ function App() {
       const shortUrl = `${import.meta.env.VITE_REDIRECT_URL}/${data.shortCode}`;
       setShortUrl(shortUrl);
     },
-    onError: () => {
-      toast.error("Error shortening URL");
+    onError: (e) => {
+      toast.error(e instanceof Error ? e.message : "Error shortening URL");
     },
   });
 
@@ -69,11 +69,10 @@ function App() {
               </motion.p>
             </CardHeader>
 
-            <CardContent className="px-2 pt-4 pb-6 sm:px-8">
+            <CardContent className="px-2 py-6 sm:px-8">
               <ShortenForm isLoading={isPending} onSubmit={onSubmit} />
-
               <AnimatePresence>
-                {shortUrl && <ShortenedUrlDisplay shortUrl={shortUrl} />}
+                <ShortenedUrlDisplay shortUrl={shortUrl} />
               </AnimatePresence>
             </CardContent>
 
