@@ -28,22 +28,44 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
           <Check className="w-4 h-4 mr-1.5 text-green-700" />
           Your short URL is ready!
         </p>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-3">
           <div className="flex-1 relative">
             <a
               href={shortUrl}
               target="_blank"
               rel="noopener noreferrer"
               role="button"
-              className="w-full pr-16 pl-3.5 py-3.5 bg-background rounded-lg border border-border text-foreground font-medium break-all focus:outline-none cursor-pointer whitespace-nowrap truncate block"
+              className="w-full sm:pr-16 px-3.5 py-3.5 bg-background rounded-lg border border-border text-foreground font-medium break-all focus:outline-none cursor-pointer whitespace-nowrap truncate block"
               aria-label="Shortened URL"
             >
               {shortUrl}
             </a>
+            <div className="sm:hidden mt-3">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-center border-border"
+                onClick={copyToClipboard}
+                tabIndex={0}
+                aria-label={isCopied ? "Copied!" : "Copy short URL"}
+              >
+                {isCopied ? (
+                  <>
+                    <Check className="w-4 h-4 text-green-700 mr-2" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    <span>Copy URL</span>
+                  </>
+                )}
+              </Button>
+            </div>
             <Button
               type="button"
               variant="outline"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-3 hover:bg-transparent border-border"
+              className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 px-3 hover:bg-transparent border-border"
               onClick={copyToClipboard}
               tabIndex={0}
               aria-label={isCopied ? "Copied!" : "Copy short URL"}
