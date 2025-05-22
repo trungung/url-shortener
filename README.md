@@ -4,6 +4,11 @@ A fully **serverless**, **edge-native** URL shortener built on **Cloudflare’s 
 
 ![Architecture Diagram](./assets/url-shortener.png)
 
+## 🚀 Roadmap
+
+Curious about what’s coming next?
+📍 Check out the [project roadmap](https://r.trungung.com/url-shortener-roadmap) for planned features, enhancements, and priorities.
+
 ## 📁 Monorepo Structure
 
 ```
@@ -146,11 +151,6 @@ Infrastructure bindings are abstracted to make future migrations easy.
 | Pulumi (CF) | Pulumi AWS/Azure, Terraform, CDK                |
 
 > Platform bindings are abstracted — migration won’t require core rewrites.
-
-## 🚀 Roadmap
-
-Curious about what’s coming next?
-📍 Check out the [project roadmap](https://r.trungung.com/url-shortener-roadmap) for planned features, enhancements, and priorities.
 
 ## 📜 License
 
