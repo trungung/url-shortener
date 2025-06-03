@@ -38,16 +38,16 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col overflow-x-hidden bg-hero-gradient px-2 sm:px-0">
-      <main className="flex-1 flex items-center justify-center">
+    <div className="bg-hero-gradient flex min-h-screen flex-col overflow-x-hidden px-2 sm:px-0">
+      <main className="flex flex-1 items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="w-full max-w-2xl"
         >
-          <Card className="spy-8 sm:py-14 px-2 sm:px-0">
-            <CardHeader className="text-center space-y-6">
+          <Card className="px-2 py-8 sm:px-0 sm:py-14">
+            <CardHeader className="space-y-6 text-center">
               <div className="space-y-4">
                 <AnimatedTitle title={title} />
                 <motion.p
@@ -78,7 +78,7 @@ function App() {
 
             <CardFooter className="flex justify-center">
               <motion.p
-                className="text-sm text-center"
+                className="text-center text-sm"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}

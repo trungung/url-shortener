@@ -3,7 +3,7 @@ import { type Env } from "./types";
 import { ShortLinkSchema } from "@workspace/schema";
 
 export async function getOneShortLinkHandler(
-  c: Context<Env>
+  c: Context<Env>,
 ): Promise<Response> {
   try {
     const shortCode = c.req.param("shortCode");

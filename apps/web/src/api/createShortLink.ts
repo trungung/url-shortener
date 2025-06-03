@@ -6,7 +6,7 @@ import {
 import axios, { AxiosError } from "axios";
 
 export const createShortLink = async (
-  data: CreateShortLinkRequest
+  data: CreateShortLinkRequest,
 ): Promise<CreateShortLinkResponse> => {
   try {
     const response = await axios.post("/api/short-link", data);

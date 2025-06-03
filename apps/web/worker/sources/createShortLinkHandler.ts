@@ -7,7 +7,7 @@ import {
 } from "@workspace/schema";
 
 export async function createShortLinkHandler(
-  c: Context<Env>
+  c: Context<Env>,
 ): Promise<Response> {
   try {
     // validate request

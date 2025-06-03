@@ -20,7 +20,7 @@ interface AnimatedTitleProps {
 export function AnimatedTitle({ title }: AnimatedTitleProps) {
   let letterIndex = 0;
   return (
-    <h1 className="text-3xl sm:text-5xl font-bold flex flex-wrap justify-center text-center">
+    <h1 className="flex flex-wrap justify-center text-center text-3xl font-bold sm:text-5xl">
       {title.split(" ").map((word, wi) => (
         <span key={wi} className="mr-2">
           {word.split("").map((char, ci) => {

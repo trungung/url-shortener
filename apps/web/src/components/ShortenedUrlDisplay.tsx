@@ -70,9 +70,9 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
         tabIndex={0}
         aria-label="Paste a URL above to create a short link"
         onClick={() => document.getElementById("originalUrl")?.focus()}
-        className="mt-6 sm:mt-8 flex flex-col items-center justify-center h-42 sm:h-32 rounded-lg border border-dashed border-border/50 bg-muted p-4 gap-2"
+        className="h-42 border-border/50 bg-muted mt-6 flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-4 sm:mt-8 sm:h-32"
       >
-        <Link2 className="w-6 h-6 text-muted-foreground" />
+        <Link2 className="text-muted-foreground h-6 w-6" />
         <p className="text-muted-foreground">
           Paste a URL above to create a short link
         </p>
@@ -82,40 +82,40 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="mt-6 sm:mt-8 p-4 sm:p-5 bg-accent rounded-xl border border-border flex flex-col gap-3">
-        <p className="text-sm font-medium text-primary flex items-center">
-          <Check className="w-4 h-4 mr-1.5 text-green-700" />
+      <div className="bg-accent border-border mt-6 flex flex-col gap-3 rounded-xl border p-4 sm:mt-8 sm:p-5">
+        <p className="text-primary flex items-center text-sm font-medium">
+          <Check className="mr-1.5 h-4 w-4 text-green-700" />
           Your short URL is ready!
         </p>
         <div className="flex flex-col gap-3">
-          <div className="flex-1 relative">
+          <div className="relative flex-1">
             <a
               href={shortUrl}
               target="_blank"
               rel="noopener noreferrer"
               role="button"
-              className="w-full sm:pr-32 px-3.5 py-3.5 bg-background rounded-lg border border-border text-foreground font-medium break-all focus:outline-none cursor-pointer whitespace-nowrap truncate block"
+              className="bg-background border-border text-foreground block w-full cursor-pointer truncate whitespace-nowrap break-all rounded-lg border px-3.5 py-3.5 font-medium focus:outline-none sm:pr-32"
               aria-label="Shortened URL"
             >
               {shortUrl}
             </a>
-            <div className="sm:hidden mt-3 flex gap-2">
+            <div className="mt-3 flex gap-2 sm:hidden">
               <Button
                 type="button"
                 variant="outline"
-                className="flex-1 justify-center border-border"
+                className="border-border flex-1 justify-center"
                 onClick={copyToClipboard}
                 tabIndex={0}
                 aria-label={isCopied ? "Copied!" : "Copy short URL"}
               >
                 {isCopied ? (
                   <>
-                    <Check className="w-4 h-4 text-green-700 mr-2" />
+                    <Check className="mr-2 h-4 w-4 text-green-700" />
                     <span>Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4 mr-2" />
+                    <Copy className="mr-2 h-4 w-4" />
                     <span>Copy URL</span>
                   </>
                 )}
@@ -123,39 +123,39 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
               <Button
                 type="button"
                 variant="outline"
-                className="flex-1 justify-center border-border"
+                className="border-border flex-1 justify-center"
                 onClick={() => setIsQrDialogOpen(true)}
                 tabIndex={0}
                 aria-label="Show QR Code"
               >
-                <QrCode className="w-4 h-4 mr-2" />
+                <QrCode className="mr-2 h-4 w-4" />
                 <span>QR Code</span>
               </Button>
             </div>
-            <div className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 gap-2">
+            <div className="absolute right-2 top-1/2 hidden -translate-y-1/2 gap-2 sm:flex">
               <Button
                 type="button"
                 variant="outline"
-                className="p-2 h-9 w-9 hover:bg-transparent border-border"
+                className="border-border h-9 w-9 p-2 hover:bg-transparent"
                 onClick={() => setIsQrDialogOpen(true)}
                 tabIndex={0}
                 aria-label="Show QR Code"
               >
-                <QrCode className="w-4 h-4" />
+                <QrCode className="h-4 w-4" />
                 <span className="sr-only">QR Code</span>
               </Button>
               <Button
                 type="button"
                 variant="outline"
-                className="p-2 h-9 w-9 hover:bg-transparent border-border"
+                className="border-border h-9 w-9 p-2 hover:bg-transparent"
                 onClick={copyToClipboard}
                 tabIndex={0}
                 aria-label={isCopied ? "Copied!" : "Copy short URL"}
               >
                 {isCopied ? (
-                  <Check className="w-4 h-4 text-green-700" />
+                  <Check className="h-4 w-4 text-green-700" />
                 ) : (
-                  <Copy className="w-4 h-4" />
+                  <Copy className="h-4 w-4" />
                 )}
                 <span className="sr-only">{isCopied ? "Copied!" : "Copy"}</span>
               </Button>
@@ -169,7 +169,7 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
           <DialogHeader>
             <DialogTitle>QR Code</DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col items-center justify-center py-4 gap-6">
+          <div className="flex flex-col items-center justify-center gap-6 py-4">
             <Button variant="link" asChild>
               <a
                 href={shortUrl}
@@ -178,13 +178,13 @@ export function ShortenedUrlDisplay({ shortUrl }: ShortenedUrlDisplayProps) {
                 className="text-centers flex items-center gap-2"
               >
                 {shortUrl}
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="h-4 w-4" />
               </a>
             </Button>
             <QRCodeSVG
               ref={qrCodeRef}
               value={shortUrl}
-              className="h-60 w-60 sm:h-80 sm:w-80 max-w-full"
+              className="h-60 w-60 max-w-full sm:h-80 sm:w-80"
               level="H"
             />
             <Button

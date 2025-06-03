@@ -2,7 +2,7 @@ import { type Context } from "hono";
 import { type Env } from "./types";
 
 export async function checkShortCodeExistsHandler(
-  c: Context<Env>
+  c: Context<Env>,
 ): Promise<Response> {
   try {
     const shortCode = c.req.param("shortCode");

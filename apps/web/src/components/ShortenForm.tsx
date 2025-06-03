@@ -53,7 +53,7 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
 
   const { data: codeExists = false } = useCheckShortCode(
     debouncedCustomCode,
-    !!debouncedCustomCode
+    !!debouncedCustomCode,
   );
 
   const customCodeError = useMemo(() => errors.customCode, [errors.customCode]);
@@ -89,12 +89,12 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
       })}
       className="w-full"
     >
-      <div className="grid grid-cols-16 gap-x-3 gap-y-6">
-        <div className="col-span-16 sm:col-span-11 space-y-2">
+      <div className="grid-cols-16 grid gap-x-3 gap-y-6">
+        <div className="col-span-16 space-y-2 sm:col-span-11">
           <Input
             id="originalUrl"
             placeholder="Paste your long URL here..."
-            className={cn("sm:h-12 sm:text-lg! w-full border-border", {
+            className={cn("sm:text-lg! border-border w-full sm:h-12", {
               "border-destructive": errors.originalUrl,
             })}
             {...register("originalUrl")}
@@ -105,7 +105,7 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
             }}
           />
           {errors.originalUrl && (
-            <p className="text-sm text-destructive ml-1">
+            <p className="text-destructive ml-1 text-sm">
               {errors.originalUrl.message}
             </p>
           )}
@@ -114,12 +114,12 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
         <Button
           type="submit"
           size="lg"
-          className="sm:h-12 w-full col-span-16 sm:col-span-5 text-base sm:text-lg"
+          className="col-span-16 w-full text-base sm:col-span-5 sm:h-12 sm:text-lg"
           disabled={isLoading}
         >
           {isLoading ? (
             <>
-              <Loader2 className="animate-spin mr-2 h-5 w-5" />
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
               Shortening...
             </>
           ) : (
@@ -141,7 +141,7 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
 
         {isAdvanced && (
           <>
-            <div className="col-span-16 sm:col-span-8 space-y-2">
+            <div className="col-span-16 space-y-2 sm:col-span-8">
               <Label htmlFor="customCode">
                 Custom Code
                 <span className="text-muted-foreground font-normal">
@@ -150,7 +150,7 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
               </Label>
               <div className="flex items-center">
                 <div className="relative w-full">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                     <Braces
                       className={cn("h-4 w-4", {
                         "text-muted-foreground": !customCode,
@@ -160,7 +160,7 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
                   <Input
                     id="customCode"
                     placeholder="Enter custom code"
-                    className={cn("w-full border-border pl-10 pr-8", {
+                    className={cn("border-border w-full pl-10 pr-8", {
                       "border-destructive": errors.customCode,
                     })}
                     {...register("customCode")}
@@ -168,13 +168,13 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
                 </div>
               </div>
               {errors.customCode && (
-                <p className="text-sm text-destructive ml-1">
+                <p className="text-destructive ml-1 text-sm">
                   {errors.customCode.message}
                 </p>
               )}
             </div>
 
-            <div className="col-span-16 sm:col-span-8 space-y-2">
+            <div className="col-span-16 space-y-2 sm:col-span-8">
               <Label htmlFor="expiresAt">
                 Expiration Date{" "}
                 <span className="text-muted-foreground font-normal">
@@ -190,9 +190,9 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
                       <Button
                         variant="outline"
                         className={cn(
-                          "w-full justify-start text-left font-normal border-border hover:bg-inherit hover:text-current text-base md:text-sm",
+                          "border-border w-full justify-start text-left text-base font-normal hover:bg-inherit hover:text-current md:text-sm",
                           !field.value &&
-                            "text-muted-foreground hover:text-muted-foreground"
+                            "text-muted-foreground hover:text-muted-foreground",
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -225,7 +225,7 @@ export function ShortenForm({ isLoading, onSubmit }: ShortenFormProps) {
                 )}
               />
               {errors.expiresAt && (
-                <p className="text-sm text-destructive ml-1">
+                <p className="text-destructive ml-1 text-sm">
                   {errors.expiresAt.message}
                 </p>
               )}
